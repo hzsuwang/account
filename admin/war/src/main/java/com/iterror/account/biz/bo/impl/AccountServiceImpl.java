@@ -43,11 +43,16 @@ import java.util.Map;
         }
         Date nowTime = new Date();
         long leftGold = accountDO.getGold() + gold;
-        int result = 1;
+        int result = 0;
         if (gold < 1) {
-            dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
+            if (leftGold < 0) {
+                //币金不够
+                return result;
+            }
+
+            result = dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         } else {
-            dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
+            result = dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         }
 
         if (result == 1) {
@@ -70,17 +75,17 @@ import java.util.Map;
 
         AccountDO accountDO = getByUserId(userId);
         long leftPoint = accountDO.getPoint() + point;
-        int result = 1;
+        int result = 0;
         Date nowTime = new Date();
         if (point < 0) {
-            if (accountDO.getPoint() + point < 0) {
+            if (leftPoint < 0) {
                 //积分不够
-                return 0;
+                return result;
             }
 
-            dao.update(AccountDO.class, Chain.makeSpecial("point", "-"+Math.abs(point)).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
+            result = dao.update(AccountDO.class, Chain.makeSpecial("point", "-"+Math.abs(point)).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         } else {
-            dao.update(AccountDO.class, Chain.makeSpecial("point", "+" + point).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
+            result = dao.update(AccountDO.class, Chain.makeSpecial("point", "+" + point).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         }
         if (result == 1) {
             PointFlowDO pointFlow = new PointFlowDO();

@@ -19,9 +19,6 @@ public class AccountServiceRpcImpl implements AccountServiceRpc {
 
     @Override public AccountBTO getByUserId(long userId) {
         AccountDO accountDO = accountService.getByUserId(userId);
-        if (accountDO == null) {
-            return null;
-        }
         AccountBTO accountBTO = new AccountBTO();
         BeanUtils.copyProperties(accountDO, accountBTO);
 
@@ -61,11 +58,27 @@ public class AccountServiceRpcImpl implements AccountServiceRpc {
 
     @Override public BaseResult updateAccountGold(long userId, int gold, int goldSrc, String comment) {
         BaseResult baseResult = new BaseResult();
+        int result = accountService.updateAccountGold(userId,gold,goldSrc,comment);
+        baseResult.setMsg("成功");
+        baseResult.setRc(1);
+        if (result == 0) {
+            baseResult.setMsg("失败");
+            baseResult.setRc(1001);
+            return baseResult;
+        }
         return baseResult;
     }
 
     @Override public BaseResult updateAccountPoint(long userId, int point, int pointSrc, String comment) {
         BaseResult baseResult = new BaseResult();
+        int result = accountService.updateAccountPoint(userId,point,pointSrc,comment);
+        baseResult.setMsg("成功");
+        baseResult.setRc(1);
+        if (result == 0) {
+            baseResult.setMsg("失败");
+            baseResult.setRc(1001);
+            return baseResult;
+        }
         return baseResult;
     }
 }
