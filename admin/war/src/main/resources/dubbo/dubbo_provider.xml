@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	        http://www.springframework.org/schema/beans/spring-beans.xsd
+	        http://code.alibabatech.com/schema/dubbo
+	        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<dubbo:provider  id="doc_provider" delay="-1" timeout="6000" retries="0" loadbalance="random" registry="registry" threads="50" protocol="doc_protocol"/>
+
+	<dubbo:protocol id="doc_protocol" register="true" port="20800" accesslog="${loggingRoot}/dubbo/account/access.log" />
+
+
+	<!-- 要暴露的服务接口 -->
+	<bean id="accountServiceRpc" class="com.iterror.account.biz.bo.rpcimpl.AccountServiceRpcImpl" />
+	<dubbo:service  provider="doc_provider"  interface="com.iterror.account.rcp.service.AccountServiceRpc" ref="accountServiceRpc" owner="tony.yan"/>
+</beans>

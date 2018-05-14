@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		<modelVersion>4.0.0</modelVersion>
+		<groupId>com.iterror.account</groupId>
+		<artifactId>account.rpc.service</artifactId>
+		<version>1.0</version>
+		<packaging>jar</packaging>
+
+		<name>account.rpc.service</name>
+		<url>http://maven.apache.org</url>
+
+		<properties>
+			<!-- 建议之后将版本信息在此管理，方便之后二方包或者三方包的升级，最佳实践：将版本全部放在主POM中，字POM只引用就好。TODO lhx -->
+			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+		</dependency>
+	</dependencies>
+		<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://192.168.20.135:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://192.168.20.135:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>

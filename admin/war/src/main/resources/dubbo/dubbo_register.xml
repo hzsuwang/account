@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	        http://www.springframework.org/schema/beans/spring-beans.xsd
+	        http://code.alibabatech.com/schema/dubbo
+	        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="dubbo-doc"  logger="slf4j"/>
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry id="registry"  protocol="zookeeper" address="${qk.zk.address}" file="dubboregistry/dubbo-registry.properties" register="true" check="false" />
+	<!--表示从注册中心发现监控中心地址，否则直连监控中心。-->
+	<dubbo:monitor protocol="registry" />
+
+</beans>
