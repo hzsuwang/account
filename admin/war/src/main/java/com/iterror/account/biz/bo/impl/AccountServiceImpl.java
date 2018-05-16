@@ -6,13 +6,16 @@ import com.iterror.account.biz.common.util.StringUtil;
 import com.iterror.account.dal.dataobject.AccountDO;
 import com.iterror.account.dal.dataobject.GoldFlowDO;
 import com.iterror.account.dal.dataobject.PointFlowDO;
+import com.iterror.account.rcp.bto.AccountBTO;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.sql.Criteria;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +40,15 @@ import java.util.Map;
     }
 
     @Override public Map<Long, AccountDO> queryMapByUids(List<Long> uids) {
-        return null;
+        List<AccountDO> accountDOS = queryListByUids(uids);
+        Map<Long, AccountDO> accountMap = new HashMap<>();
+        if (accountDOS == null || accountDOS.size() == 0) {
+            return accountMap;
+        }
+        for (AccountDO accountDO : accountDOS) {
+            accountMap.put(accountDO.getUserId(), accountDO);
+        }
+        return accountMap;
     }
 
     @Override @Transactional(rollbackFor = Exception.class) public int updateAccountGold(long userId, int gold, int goldSrc, String comment) {
