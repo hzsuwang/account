@@ -76,7 +76,12 @@
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.iterror.account</groupId>
+            <artifactId>account.rpc.service</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 	

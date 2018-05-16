@@ -4,6 +4,7 @@ import com.iterror.account.biz.bo.AccountService;
 import com.iterror.account.dal.dataobject.AccountDO;
 import com.iterror.account.rcp.bto.AccountBTO;
 import com.iterror.account.rcp.common.result.BaseResult;
+import com.iterror.account.rcp.common.result.RespCode;
 import com.iterror.account.rcp.service.AccountServiceRpc;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +60,11 @@ public class AccountServiceRpcImpl implements AccountServiceRpc {
     @Override public BaseResult updateAccountGold(long userId, int gold, int goldSrc, String comment) {
         BaseResult baseResult = new BaseResult();
         int result = accountService.updateAccountGold(userId,gold,goldSrc,comment);
-        baseResult.setMsg("成功");
-        baseResult.setRc(1);
+        baseResult.setMsg(RespCode.SUCCESS.getMsg());
+        baseResult.setRc(RespCode.SUCCESS.getCode());
         if (result == 0) {
-            baseResult.setMsg("失败");
-            baseResult.setRc(1001);
+            baseResult.setMsg(RespCode.NOT_SUFFICIENT_FUNDS.getMsg());
+            baseResult.setRc(RespCode.NOT_SUFFICIENT_FUNDS.getCode());
             return baseResult;
         }
         return baseResult;
@@ -72,11 +73,11 @@ public class AccountServiceRpcImpl implements AccountServiceRpc {
     @Override public BaseResult updateAccountPoint(long userId, int point, int pointSrc, String comment) {
         BaseResult baseResult = new BaseResult();
         int result = accountService.updateAccountPoint(userId,point,pointSrc,comment);
-        baseResult.setMsg("成功");
-        baseResult.setRc(1);
+        baseResult.setMsg(RespCode.SUCCESS.getMsg());
+        baseResult.setRc(RespCode.SUCCESS.getCode());
         if (result == 0) {
-            baseResult.setMsg("失败");
-            baseResult.setRc(1001);
+            baseResult.setMsg(RespCode.NOT_SUFFICIENT_FUNDS.getMsg());
+            baseResult.setRc(RespCode.NOT_SUFFICIENT_FUNDS.getCode());
             return baseResult;
         }
         return baseResult;
