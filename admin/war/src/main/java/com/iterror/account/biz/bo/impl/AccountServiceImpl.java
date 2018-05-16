@@ -2,11 +2,13 @@ package com.iterror.account.biz.bo.impl;
 
 import com.iterror.account.biz.bo.AccountService;
 import com.iterror.account.biz.common.BaseService;
+import com.iterror.account.biz.common.util.StringUtil;
 import com.iterror.account.dal.dataobject.AccountDO;
 import com.iterror.account.dal.dataobject.GoldFlowDO;
 import com.iterror.account.dal.dataobject.PointFlowDO;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.sql.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,10 @@ import java.util.Map;
     }
 
     @Override public List<AccountDO> queryListByUids(List<Long> uids) {
-        return null;
+        Criteria cri = Cnd.cri();
+
+        cri.where().andIn("user_id", StringUtil.getIdsStr(uids));
+        return dao.query(AccountDO.class,cri);
     }
 
     @Override public Map<Long, AccountDO> queryMapByUids(List<Long> uids) {
@@ -50,7 +55,7 @@ import java.util.Map;
                 return result;
             }
 
-            result = dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
+            result = dao.update(AccountDO.class, Chain.makeSpecial("gold", "-" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         } else {
             result = dao.update(AccountDO.class, Chain.makeSpecial("gold", "+" + gold).add("edit_time", nowTime), Cnd.where("user_id", "=", userId));
         }
