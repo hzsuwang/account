@@ -9,6 +9,7 @@ import com.iterror.account.dal.dataobject.PointFlowDO;
 import com.iterror.account.rcp.bto.AccountBTO;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.sql.Criteria;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,13 @@ import java.util.Map;
     }
 
     @Override public List<AccountDO> queryListByUids(List<Long> uids) {
-        Criteria cri = Cnd.cri();
-
-        cri.where().andIn("user_id", StringUtil.getIdsStr(uids));
-        return dao.query(AccountDO.class,cri);
+        Condition cnd = Cnd.where("1", "=", 1);
+        if(uids.isEmpty()){
+            ((Cnd)cnd).and("user_id", "=", 0);
+        }else{
+            ((Cnd)cnd).and("user_id", "in", uids);
+        }
+        return dao.query(AccountDO.class,cnd);
     }
 
     @Override public Map<Long, AccountDO> queryMapByUids(List<Long> uids) {
